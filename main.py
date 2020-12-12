@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import StringVar, ttk
+from tkinter import ttk, END
 
 root = tkinter.Tk()
 root.title('Metric Helper')
@@ -13,6 +13,35 @@ button_color = "#f5cf87"
 root.config(bg=bg_color)
 
 # define functions
+def convert():
+    metric_values = {
+        'femto': 10**-15,
+        'pico': 10**-12,
+        'nano': 10**-9,
+        'micro': 10**-6,
+        'milli': 10**-3,
+        'centi': 10**-2,
+        'deci': 10**-1,
+        'base value': 10**0,
+        'deca': 10**1,
+        'hecto': 10**2,
+        'kilo': 10**3,
+        'mega': 10**6,
+        'giga': 10**9,
+        'tera': 10**12,
+        'peta': 10**15
+    }
+    start_value = float(input_field.get())
+    start_prefix = input_combobox.get()
+    end_prefix = output_combobox.get()
+
+    # convert to the base unit first
+    base_value = start_value * metric_values[start_prefix]
+    end_value = base_value/metric_values[end_prefix]
+
+    output_field.delete(0, END)
+    output_field.insert(0, str(end_value))
+
 
 # define layout
 input_field = tkinter.Entry(root, widt=20, font=field_font, borderwidth=3)
@@ -41,7 +70,7 @@ output_combobox.set("base value")
 
 
 # create conversion buttons
-convert_button = tkinter.Button(root, text='Convert', font=field_font, bg=button_color)
+convert_button = tkinter.Button(root, text='Convert', font=field_font, bg=button_color, command=convert)
 convert_button.grid(row=2, column=0, columnspan=3, padx=10, pady=10, ipadx=50)
 
 
